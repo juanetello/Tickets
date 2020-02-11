@@ -1,12 +1,14 @@
 package com.juan.ejercicio.tickets.entity;
 
-import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Ticket {
@@ -17,10 +19,12 @@ public class Ticket {
 
 	private String titulo;
 	private String contenido;
-	private ArrayList<String> estados;
+	private Long idEstado;
 	private String adjuntos;
-	private Date fechaHora;
 	private ArrayList<UsuarioTicket> usuarioLogueado;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fechaHoraCarga;
 
 	public Long getId() {
 		return id;
@@ -46,12 +50,12 @@ public class Ticket {
 		this.contenido = contenido;
 	}
 
-	public ArrayList<String> getEstados() {
-		return estados;
+	public Long getIdEstado() {
+		return idEstado;
 	}
 
-	public void setEstados(ArrayList<String> estados) {
-		this.estados = estados;
+	public void setIdEstado(Long idEstado) {
+		this.idEstado = idEstado;
 	}
 
 	public String getAdjuntos() {
@@ -62,14 +66,6 @@ public class Ticket {
 		this.adjuntos = adjuntos;
 	}
 
-	public Date getFechahora() {
-		return fechaHora;
-	}
-
-	public void setFechahora(Date fechahora) {
-		this.fechaHora = fechahora;
-	}
-
 	public ArrayList<UsuarioTicket> getUsuarioLogueado() {
 		return usuarioLogueado;
 	}
@@ -78,4 +74,13 @@ public class Ticket {
 		this.usuarioLogueado = usuarioLogueado;
 	}
 
+	public Date getFechaHoraCarga() {
+		return fechaHoraCarga;
+	}
+
+	public void setFechaHoraCarga(Date fechaHoraCarga) {
+		this.fechaHoraCarga = fechaHoraCarga;
+	}
+	
+	
 }

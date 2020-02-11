@@ -1,6 +1,7 @@
 package com.juan.ejercicio.tickets.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.juan.ejercicio.tickets.dao.EstadosDao;
+import com.juan.ejercicio.tickets.entity.Estados;
 import com.juan.ejercicio.tickets.entity.Ticket;
 import com.juan.ejercicio.tickets.service.TicketService;
 
@@ -36,9 +39,11 @@ public class TicketController {
 
 	@PostMapping("/actualizar")
 	public String actualizarTicket(ModelMap modelMap, @RequestParam Long id, @RequestParam String titulo,
-			@RequestParam String contenido, @RequestParam ArrayList<String> estados) {
+			@RequestParam String contenido, @RequestParam Long idEstado) {
 		
 		Ticket ticket = new Ticket();
+		List<Estados> listaEstados = EstadosDao.getEstados();
+		modelMap.addAttribute("estados", listaEstados);
 		
 		if (id != null) {
 			ticket = (Ticket) ticketService.findById(id);
@@ -47,7 +52,8 @@ public class TicketController {
 		ticket.setId(id);
 		ticket.setTitulo(titulo);
 		ticket.setContenido(contenido);
-		ticket.setEstados(estados);
+		ticket.setIdEstado(idEstado);
+		ticket.setFechaHoraCarga(new Date());
 		
 		try {
 			ticketService.actualizarTicket(ticket);

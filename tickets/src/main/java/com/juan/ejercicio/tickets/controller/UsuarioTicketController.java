@@ -11,11 +11,12 @@ import com.juan.ejercicio.tickets.service.UsuarioTicketService;
 @RequestMapping("/usuario")
 public class UsuarioTicketController {
 
-	@Autowired
-	private UsuarioTicketService UsuarioTicketService;
+//	@Autowired
+//	private UsuarioTicketService UsuarioTicketService;
 	
 	@GetMapping("/login")
 	public String login() {
 		return "login.html";
 	}
+	
 }

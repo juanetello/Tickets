@@ -11,7 +11,7 @@
     <title>Ticket - Login</title>
 
     <link href="/css/bootstrap.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />    
+    <link href="/css/style.css" rel="stylesheet" />
     <link rel="shortcut icon" href="/img/ticket.ico" />
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet" media="all">
@@ -23,23 +23,17 @@
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
                 </button>
 
                 <a class="navbar-brand" href="#">
                     <img src="/img/ticket_logo.png" class="navbar-brand-logo" alt="logo empresa" />
                 </a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right">
 
-                </ul>
-            </div>
         </div>
     </div>
-
+    <br>
 
     <div class="col-lg-4 col-md-4"></div>
 
@@ -54,7 +48,7 @@
             <div class="card-body">
                 <form th:action="@{/logincheck}" method="POST" class="m-t" role="form">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Mail" name="mail" />
+                        <input type="text" class="form-control" placeholder="Email" name="email" />
                     </div>
                     <div class="form-group">
                         <input type="password" class="form-control" placeholder="Password" name="password" />
@@ -64,50 +58,9 @@
                         <label class="custom-control-label" for="customCheck1">Recordar contraseña</label>
                     </div>
                     <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Ingresar</button>
-                    <a href="#">
-                        <small>Olvidaste la clave?</small>
-                    </a>
-                    <br>
-                    <br>
-                    <span>Si no tienes cuenta, completa formulario.</span>
 
                 </form>
 
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" onclick="showHiddenSection()">
-                    Completar formulario
-                </button>
-            </div>
-
-            <div id="hiddenSection">
-                <hr size="30">
-
-                <form th:action="@{/user/register}" method="POST" class="m-t" role="form">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Ingrese su nombre" name="name"
-                            th:value="${name}" />
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Ingrese su apellido" name="surname"
-                            th:value="${surname}" />
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Ingrese su clave" name="password1"
-                            th:value="${password1}" />
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" placeholder="Repita su clave" name="password2"
-                            th:value="${password2}" />
-                    </div>
-                    <div class="form-group">
-                        <input type="email" class="form-control" placeholder="Ingrese su mail" name="mail"
-                            th:value="${mail}" />
-                    </div>
-
-                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Registrarse</button>
-
-                </form>
-
-                <p th:if="${error != null}" th:text="${error}" style="color:red"></p>
             </div>
 
         </div>
@@ -115,9 +68,6 @@
     </div>
 
     <div class="col-lg-4 col-md-4"></div>
-
-
-
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 

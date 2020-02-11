@@ -50,8 +50,7 @@ public class TicketService {
 
 	@SuppressWarnings("unchecked")
 	public List<Ticket> listar() {
-		return entityManager.createQuery("SELECT ti FROM Ticket ti WHERE ti.fecha_hora IS NULL ORDER BY ti.id")
-				.getResultList();
+		return entityManager.createQuery("SELECT ti FROM Ticket ti ORDER BY ti.id").getResultList();
 	}
 
 }

@@ -7,11 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.apache.tomcat.jni.User;
-import org.dom4j.util.UserDataDocumentFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,15 +24,15 @@ public class UsuarioTicketService implements UserDetailsService {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
+
 	@Transactional
 	public UsuarioTicket actualizarUsuario(String id, String rol, String nombre, String apellido, String email,
 			String password) throws Exception {
-		
+
 		validate(nombre, apellido, email, password);
-		
+
 		List<UsuarioTicket> usuarioExistentes = findUserByEmail(email);
-		
+
 		if (!usuarioExistentes.isEmpty()) {
 			for (UsuarioTicket usuarioTicket : usuarioExistentes) {
 				if (!usuarioTicket.getId().equals(id)) {
@@ -41,30 +40,59 @@ public class UsuarioTicketService implements UserDetailsService {
 				}
 			}
 		}
-		
+
 		UsuarioTicket usuarioTicket = findUserById(id);
-		
+
 		String encodePassword = new BCryptPasswordEncoder().encode(password);
-		
+
 		usuarioTicket.setPassword(encodePassword);
 		usuarioTicket.setNombre(nombre);
 		usuarioTicket.setApellido(apellido);
 		usuarioTicket.setEmail(email);
-		
+
 		for (UsuarioTicket usuarioRol : usuarioExistentes) {
-			usuarioTicket.setRol(usuarioRol.getRol());			
+			usuarioTicket.setRol(usuarioRol.getRol());
 		}
-		
+
 		return entityManager.merge(usuarioTicket);
 
 	}
-	
-	public
+
+	@Transactional
+	public UsuarioTicket registrarUsuario(String rol, String nombre, String apellido, String email, String password)
+			throws Exception {
+
+		validate(nombre, apellido, email, password);
+
+		List<UsuarioTicket> usuarioExistentes = findUserByEmail(email);
+
+		if (!usuarioExistentes.isEmpty()) {
+			throw new Exception("Ya existe un usuario registrado con este mail");
+		}
+
+		UsuarioTicket usuarioTicket = new UsuarioTicket();
+
+		String encodePassword = new BCryptPasswordEncoder().encode(password);
+
+		usuarioTicket.setNombre(nombre);
+		usuarioTicket.setApellido(apellido);
+		usuarioTicket.setEmail(email);
+		usuarioTicket.setPassword(encodePassword);
+
+		for (UsuarioTicket usuarioRol : usuarioExistentes) {
+			usuarioTicket.setRol(usuarioRol.getRol());
+		}
+
+		entityManager.persist(usuarioTicket);
+
+		return usuarioTicket;
+
+	}
 
 	@Override
-	public UserDetails loadUserByMail(String email) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		List<UsuarioTicket> listUsuarioTicket = findUserById(email);
+		List<UsuarioTicket> listUsuarioTicket = findUserByEmail(email);
 
 		User user = null;
 		if (!listUsuarioTicket.isEmpty()) {
@@ -109,8 +137,9 @@ public class UsuarioTicketService implements UserDetailsService {
 		return entityManager.find(UsuarioTicket.class, id);
 	}
 
+	@SuppressWarnings("unchecked")
 	public List<UsuarioTicket> findUserByEmail(String email) {
-		return entityManager.createQuery("SELECT ut FROM UserTicket ut WHERE ut.email = :email")
+		return entityManager.createQuery("SELECT ut FROM UsuarioTicket ut WHERE ut.email = :email")
 				.setParameter("email", email).getResultList();
 	}
 

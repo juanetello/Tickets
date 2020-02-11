@@ -22,9 +22,10 @@ public class UsuarioTicket {
 
 	private String nombre;
 	private String apellido;
+	private String password;
+
 	@Email
 	private String email;
-	private String password;
 
 	public String getId() {
 		return id;
